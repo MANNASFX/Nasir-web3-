@@ -87,6 +87,7 @@
     <h2>🔗 Web3</h2>
     <button onclick="welcome()">My Web3 Journey</button>
     <button onclick="connectWallet()">🔗 Connect Wallet</button>
+<p id="walletAddress"></p>
   </div>
 
   <div class="card">
@@ -116,7 +117,26 @@
     }
 
     async function connectWallet() {
-      if (typeof window.ethereum === "undefined") {
+  if (typeof window.ethereum === "undefined") {
+    alert("Please open this website in MetaMask.");
+    return;
+  }
+
+  try {
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts"
+    });
+
+    const address = accounts[0];
+
+    document.getElementById("walletAddress").innerText =
+      "Connected: " + address.slice(0, 6) + "..." + address.slice(-4);
+
+  } catch (error) {
+    alert("Wallet connection cancelled.");
+  }
+}
+      if (typeof window.ethereum ==="undefined") {
         alert("Please open this website in MetaMask.");
         return;
       }
